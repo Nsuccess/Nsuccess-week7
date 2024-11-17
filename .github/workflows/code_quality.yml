@@ -1,0 +1,51 @@
+name: Code Quality flows
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Job 1: Code Quality Check
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Super Linter
+        uses: github/super-linter@v4
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_BASH: true
+
+  # Job 2: Test and Print Variables
+  test:
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - name: Print GitHub Token and Username
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ secrets.USERNAME }}
+        run: |
+          echo "GitHub Token: $GITHUB_TOKEN"
+          echo "GitHub Username: $USERNAME"
+
+  # Job 3: Build
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List all files in the directory
+        run: ls -la
+
+      - name: Make script executable
+        run: chmod +x num_count.sh
+
+      - name: Run a Bash Script
+        run: ./num_count.sh
