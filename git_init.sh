@@ -37,6 +37,6 @@ done
 git status
 
 # Input initial commit message
-read -p "Enter commit message: " MESSAGE
+read -r -p "Enter commit message: " MESSAGE
 git commit -m "${MESSAGE}"
 git push -u origin main
