@@ -26,12 +26,9 @@ jobs:
     needs: check
     steps:
       - name: Print GitHub Token and Username
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ vars.USERNAME }}
         run: |
-          echo "GitHub Token: $GITHUB_TOKEN"
-          echo "GitHub Username: $USERNAME"
+          echo "GitHub Token: ${{ secrets.GITHUB_TOKEN }}"
+          echo "GitHub Username: ${{ vars.USERNAME }}"
 
   # Job 3: Build
   build:
